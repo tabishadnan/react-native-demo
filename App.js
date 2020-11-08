@@ -10,6 +10,8 @@ export default function App() {
 
   const [todos, setTodos] = useState([]);
 
+  const [issAddMode, setissAddMode] = useState(false);
+
   const handleChange = (newVal) => {
     updateValue(newVal);
   };
@@ -22,13 +24,30 @@ export default function App() {
     };
     setTodos([...todos, tempObj]);
     updateValue("");
+    setissAddMode(false);
+  };
+
+  const removeTodo = (rindex) => {
+    let todoArrCopy = [...todos];
+    todoArrCopy.splice(rindex, 1);
+    setTodos(todoArrCopy);
   };
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <AddTodo value={value} handleChange={handleChange} addTodo={addTodo} />
-      <TodoList todos={todos} />
+      {!issAddMode && <View style={styles.AddMode}>
+        <Button onPress={() => setissAddMode(true)} title="Add Todo" color="red" />
+      </View>}
+      <AddTodo value={value} handleChange={handleChange}
+       addTodo={addTodo} 
+       issAddMode={issAddMode} 
+       setissAddMode={setissAddMode}
+       updateValue={updateValue}
+        />
+      <TodoList todos={todos}
+      removeTodo={removeTodo}
+      />
     </View>
   );
 }
@@ -40,18 +59,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     justifyContent: 'center',
   },
-  input: {
-    width: "80%",
-    marginBottom: 10,
-    paddingHorizontal: 8,
-    paddingVertical: 6,
-    borderBottomWidth: 1,
-    borderBottomColor: 'red',
-    marginHorizontal: 10,
-  },
-  todowrapper : {
+  todowrapper: {
     flexDirection: "row",
     alignItems: "center",
-    marginVertical:10,
+    marginVertical: 10,
+  }, 
+  AddMode : {
+    flex: 1,
+    justifyContent:"center",
+    alignItems: "center",
+    flexDirection: "row",
+    marginVertical: 50,
   }
 });

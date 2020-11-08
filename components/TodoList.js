@@ -1,14 +1,15 @@
 import React from 'react';
-import { Text, FlatList } from 'react-native';
+import { StyleSheet, Text, FlatList } from 'react-native';
+import TodoItem from './TodoItem';
 
-const TodoList = ({todos}) => {
+const TodoList = ({todos , removeTodo}) => {
     return (
         <FlatList
             data={todos}
             keyExtractor={(item, index) => item.id}
-            renderItem={todo => <Text>{todo.item.value}</Text>}
+            renderItem={(todo) => <TodoItem todo={todo} removeTodo={removeTodo} />}
         />
     );
-}
+};
 
 export default TodoList;
